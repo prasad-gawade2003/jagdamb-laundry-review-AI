@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jagdamb Laundry - Share Your Experience</title>
+    <meta name="description" content="Share your laundry experience with Jagdamb Laundry. Quick and easy feedback submission.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========== RESET & BASE ========== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #8B83FF;
+            --primary-dark: #4A42E0;
+            --accent: #00D4AA;
+            --accent-light: #33DFBC;
+            --gold: #FFD700;
+            --gold-dark: #E6C200;
+            --bg-dark: #0A0A1A;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-card-hover: rgba(255, 255, 255, 0.08);
+            --text-primary: #EAEAFF;
+            --text-secondary: #9896B8;
+            --text-muted: #6B6990;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 60px rgba(108, 99, 255, 0.15);
+            --radius: 20px;
+            --radius-sm: 12px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans Devanagari', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ========== ANIMATED BACKGROUND ========== */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-gradient::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.15) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation: floatOrb1 15s ease-in-out infinite;
+        }
+
+        .bg-gradient::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation: floatOrb2 18s ease-in-out infinite;
+        }
+
+        .orb-3 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.07) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: floatOrb3 12s ease-in-out infinite;
+        }
+
+        @keyframes floatOrb1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-80px, 60px) scale(1.1); }
+            66% { transform: translate(40px, -40px) scale(0.9); }
+        }
+
+        @keyframes floatOrb2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(60px, -80px) scale(1.15); }
+            66% { transform: translate(-50px, 30px) scale(0.85); }
+        }
+
+        @keyframes floatOrb3 {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.3); }
+        }
+
+        /* ========== PARTICLES ========== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(108, 99, 255, 0.4);
+            border-radius: 50%;
+            animation: particleFloat linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* ========== MAIN CONTAINER ========== */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ========== CARD ========== */
+        .card {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px 28px;
+            box-shadow: var(--shadow), var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+            animation: cardEntry 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--gold));
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        @keyframes cardEntry {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== LOGO / HEADER ========== */
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 24px rgba(108, 99, 255, 0.3);
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { box-shadow: 0 4px 24px rgba(108, 99, 255, 0.3); }
+            50% { box-shadow: 0 4px 40px rgba(108, 99, 255, 0.5); }
+        }
+
+        .brand-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-tagline {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        /* ========== STARS ========== */
+        .stars-section {
+            text-align: center;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s 0.3s both;
+        }
+
+        .stars-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .stars-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .star {
+            font-size: 2rem;
+            color: #3a3850;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: default;
+            filter: grayscale(1);
+        }
+
+        .star.filled {
+            color: var(--gold);
+            filter: grayscale(0) drop-shadow(0 0 8px rgba(255, 215, 0, 0.4));
+            animation: starPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes starPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .star-count {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-left: 8px;
+        }
+
+        /* ========== REVIEW BOX ========== */
+        .review-section {
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s 0.5s both;
+        }
+
+        .review-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .review-label .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .review-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .review-box::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 12px;
+            font-size: 5rem;
+            color: rgba(108, 99, 255, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .review-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 1;
+            word-wrap: break-word;
+        }
+
+        .review-text.typing .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: var(--accent);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: cursorBlink 0.8s infinite;
+        }
+
+        @keyframes cursorBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .lang-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(108, 99, 255, 0.15);
+            border: 1px solid rgba(108, 99, 255, 0.25);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 14px;
+        }
+
+        /* ========== SUBMIT BUTTON ========== */
+        .submit-section {
+            animation: fadeInUp 0.6s 0.7s both;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.45);
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-submit .btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-submit .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-submit:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        /* ========== TOAST ========== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 212, 170, 0.95);
+            color: #0A0A1A;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 30px rgba(0, 212, 170, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ========== CONFETTI ========== */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ========== REGENERATE BUTTON ========== */
+        .regen-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 14px;
+        }
+
+        .regen-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary-light);
+            background: rgba(108, 99, 255, 0.08);
+        }
+
+        .regen-btn .regen-icon {
+            transition: transform 0.4s ease;
+        }
+
+        .regen-btn:hover .regen-icon {
+            transform: rotate(180deg);
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            animation: fadeInUp 0.6s 0.9s both;
+        }
+
+        .footer span {
+            color: var(--primary-light);
+        }
+
+        /* ========== UTILITY ANIMATIONS ========== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* ========== LOADING STATE ========== */
+        .loading-dots {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: dotBounce 1.4s infinite;
+        }
+
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dotBounce {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+            }
+
+            .card {
+                padding: 28px 20px;
+                border-radius: 16px;
+            }
+
+            .brand-name {
+                font-size: 1.35rem;
+            }
+
+            .star {
+                font-size: 1.7rem;
+            }
+
+            .review-text {
+                font-size: 0.95rem;
+            }
+
+            .btn-submit {
+                padding: 16px 28px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-gradient">
+        <div class="orb-3"></div>
+    </div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="card" id="mainCard">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo-icon">👔</div>
+                <h1 class="brand-name">Jagdamb Laundry</h1>
+                <p class="brand-tagline">Your feedback means the world to us ✨</p>
+            </div>
+
+            <!-- Stars -->
+            <div class="stars-section">
+                <div class="stars-label">Your Rating</div>
+                <div class="stars-display" id="starsDisplay">
+                    <span class="star" data-index="1">★</span>
+                    <span class="star" data-index="2">★</span>
+                    <span class="star" data-index="3">★</span>
+                    <span class="star" data-index="4">★</span>
+                    <span class="star" data-index="5">★</span>
+                    <span class="star-count" id="starCount"></span>
+                </div>
+            </div>
+
+            <!-- Review -->
+            <div class="review-section">
+                <div class="review-label">
+                    <span class="dot"></span>
+                    AI Generated Review
+                </div>
+                <div class="review-box">
+                    <div class="review-text" id="reviewText">
+                        <div class="loading-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                    <div class="lang-badge" id="langBadge">🌐 Loading...</div>
+                    <button class="regen-btn" id="regenBtn" onclick="generateReview()">
+                        <span class="regen-icon">🔄</span> New Review
+                    </button>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submit-section">
+                <button class="btn-submit" id="submitBtn" onclick="handleSubmit()" disabled>
+                    <span class="btn-content">
+                        <span>Submit Review</span>
+                        <span class="arrow">→</span>
+                    </span>
+                </button>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                Powered by <span>AI</span> • Thank you for choosing us 💙
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span>✅</span>
+        <span id="toastMsg">Review copied to clipboard!</span>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti"></div>
+
+    <script>
+        // ========== REVIEW DATA ENGINE ==========
+        // Massive pool of sentence fragments to combine — ensures no two reviews are alike
+
+        const reviewData = {
+            english: {
+                label: 'English',
+                flag: '🇮🇳',
+                openers: [
+                    "Absolutely fantastic service! 🙌",
+                    "Really impressed with Jagdamb Laundry! 👏",
+                    "What an amazing experience! ✨",
+                    "Brilliant service, totally satisfied! 💯",
+                    "So happy I found this laundry shop! 😊",
+                    "Top-notch quality, hands down! 🔥",
+                    "Wow, just wow! Best laundry ever! 🤩",
+                    "Super professional and reliable! 💪",
+                    "Outstanding experience from start to finish! 🌟",
+                    "Five-star service all the way! ⭐",
+                    "Couldn't be happier with the results! 😄",
+                    "The best laundry service in town! 🏆",
+                    "Exceptional quality every single time! 👌",
+                    "Highly recommend this place! 👍",
+                    "This is how laundry should be done! 💎",
+                ],
+                service: [
+                    "Proper service is provided on time! ⏰",
+                    "Clothes were returned perfectly clean and fresh! 👗",
+                    "They handle every fabric with such care! 🧥",
+                    "My clothes look brand new after their wash! ✨",
+                    "Stains removed like magic, truly impressive! 🪄",
+                    "Even delicate fabrics were treated perfectly! 🎀",
+                    "The ironing was crisp and flawless! 👔",
+                    "Every piece was neatly folded and packed! 📦",
+                    "They pay attention to every small detail! 🔍",
+                    "The washing quality is genuinely premium! 💫",
+                    "Clothes smell so fresh and clean! 🌸",
+                    "White clothes came back sparkling white! ⚪",
+                    "Colors stayed vibrant, no fading at all! 🌈",
+                    "Perfectly pressed, no wrinkles anywhere! 👕",
+                    "The starch on my shirts was perfect! 👗",
+                ],
+                timing: [
+                    "For surely you'll get your clothes done on time! ⏳",
+                    "Always delivered before the promised time! 🕐",
+                    "Super quick turnaround, didn't expect it! ⚡",
+                    "On-time delivery, never been late once! 📍",
+                    "They respect your time, always punctual! ⏱️",
+                    "Got my clothes back faster than expected! 🚀",
+                    "Same day service was a lifesaver! 🙏",
+                    "Delivery timing is consistently reliable! 📅",
+                    "Quick pickup and even quicker delivery! 💨",
+                    "Never had to wait longer than promised! ✅",
+                ],
+                closing: [
+                    "Definitely coming back again and again! 🔁",
+                    "Will recommend to all my friends and family! 👨‍👩‍👧‍👦",
+                    "Thank you Jagdamb Laundry for the great work! 🙏",
+                    "Totally worth every rupee! 💰",
+                    "A laundry service you can truly trust! 🤝",
+                    "Keep up the amazing work, team! 💪",
+                    "My go-to laundry from now on! ❤️",
+                    "Best decision to choose Jagdamb Laundry! 👑",
+                    "Can't imagine going anywhere else now! 🏠",
+                    "Excellent value for money! 🎯",
+                    "Looking forward to my next visit! 😃",
+                    "10/10 would recommend! 🎉",
+                    "This place never disappoints! 💖",
+                    "Truly the best laundry experience! 🌟",
+                    "Grateful for such wonderful service! 🙌",
+                ],
+            },
+            hindi: {
+                label: 'हिंदी',
+                flag: '🇮🇳',
+                openers: [
+                    "बहुत ही शानदार सर्विस! 🙌",
+                    "जगदंब लॉन्ड्री से बहुत खुश हूँ! 😊",
+                    "क्या बात है, मज़ा आ गया! ✨",
+                    "एकदम बढ़िया काम करते हैं! 💯",
+                    "इतनी अच्छी लॉन्ड्री पहले कभी नहीं मिली! 🔥",
+                    "सच में बेहतरीन सर्विस! 🤩",
+                    "बहुत ही प्रोफेशनल काम! 💪",
+                    "वाह, ज़बरदस्त! 🌟",
+                    "सब से बेस्ट लॉन्ड्री सर्विस! ⭐",
+                    "दिल खुश हो गया सर्विस देखकर! 💖",
+                    "कमाल का काम करते हैं! 🏆",
+                    "ऐसी सर्विस कहाँ मिलती है! 👏",
+                    "फर्स्ट क्लास क्वालिटी! 💎",
+                    "बेस्ट ऑफ बेस्ट! 👍",
+                    "एक बार ज़रूर ट्राई करें! 🎯",
+                ],
+                service: [
+                    "कपड़े एकदम साफ़ और फ्रेश मिले! 👗",
+                    "धुलाई का काम बहुत बढ़िया है! ✨",
+                    "हर कपड़े का ध्यान रखते हैं! 🧥",
+                    "दाग़ पूरी तरह निकल गए! 🪄",
+                    "इस्त्री एकदम परफेक्ट! 👔",
+                    "कपड़ों की तह बिल्कुल सही! 📦",
+                    "नाज़ुक कपड़ों का भी ख़्याल रखते हैं! 🎀",
+                    "कपड़े बिल्कुल नए जैसे दिख रहे हैं! 💫",
+                    "सफ़ाई का स्तर बहुत ऊँचा है! 🔍",
+                    "खुशबू बहुत अच्छी आ रही है कपड़ों से! 🌸",
+                    "सफ़ेद कपड़े चमक रहे हैं! ⚪",
+                    "रंग बिल्कुल वैसे ही रहे, कोई फ़ेडिंग नहीं! 🌈",
+                    "प्रेसिंग बहुत ही अच्छी! 👕",
+                    "हर छोटी-बड़ी बात का ध्यान रखा! 👌",
+                    "क्वालिटी में कोई कमी नहीं! 💪",
+                ],
+                timing: [
+                    "समय पर डिलीवरी, कोई देरी नहीं! ⏰",
+                    "वक़्त से पहले कपड़े मिल गए! ⚡",
+                    "टाइम पर काम होता है हमेशा! 🕐",
+                    "बहुत जल्दी काम हो गया! 🚀",
+                    "पंक्चुअल सर्विस, बहुत अच्छा! ⏱️",
+                    "जब कहा तब मिल गया! ✅",
+                    "सेम डे सर्विस ने बचा लिया! 🙏",
+                    "डिलीवरी हमेशा टाइम पर! 📅",
+                    "तेज़ पिकअप और जल्दी डिलीवरी! 💨",
+                    "कभी लेट नहीं हुए! 📍",
+                ],
+                closing: [
+                    "बार-बार यहीं आऊँगा! 🔁",
+                    "सबको रेकमेंड करूँगा! 👨‍👩‍👧‍👦",
+                    "शुक्रिया जगदंब लॉन्ड्री! 🙏",
+                    "पैसा वसूल! 💰",
+                    "भरोसेमंद लॉन्ड्री! 🤝",
+                    "ऐसे ही अच्छा काम करते रहो! 💪",
+                    "अब हमेशा यहीं आऊँगा! ❤️",
+                    "सही चुनाव किया जगदंब लॉन्ड्री आकर! 👑",
+                    "और कहीं जाने की ज़रूरत ही नहीं! 🏠",
+                    "बेहतरीन! पूरे पैसे वसूल! 🎯",
+                    "अगली बार फिर आऊँगा! 😃",
+                    "10 में 10 नंबर! 🎉",
+                    "यहाँ कभी निराशा नहीं होती! 💖",
+                    "सच में सबसे अच्छी लॉन्ड्री! 🌟",
+                    "बहुत-बहुत शुक्रिया! 🙌",
+                ],
+            },
+            marathi: {
+                label: 'मराठी',
+                flag: '🇮🇳',
+                openers: [
+                    "खूपच भारी सर्विस! 🙌",
+                    "जगदंब लॉन्ड्रीने खूप छान काम केलं! 👏",
+                    "एकदम मस्त अनुभव! ✨",
+                    "भारी काम करतात! 💯",
+                    "अशी लॉन्ड्री पहिल्यांदाच भेटली! 🔥",
+                    "खरंच खूप छान! 🤩",
+                    "प्रोफेशनल आणि विश्वासार्ह! 💪",
+                    "वाह, कमाल आहे! 🌟",
+                    "सगळ्यात बेस्ट लॉन्ड्री! ⭐",
+                    "मन खूश झालं! 💖",
+                    "अप्रतिम काम! 🏆",
+                    "हे तर भन्नाट आहे! 😊",
+                    "फर्स्ट क्लास क्वालिटी! 💎",
+                    "सर्वोत्तम सर्विस! 👍",
+                    "एकदा नक्की ट्राय करा! 🎯",
+                ],
+                service: [
+                    "कपडे एकदम स्वच्छ आणि फ्रेश! 👗",
+                    "धुलाईचं काम अगदी उत्तम! ✨",
+                    "प्रत्येक कपड्याची काळजी घेतात! 🧥",
+                    "डाग पूर्णपणे निघाले! 🪄",
+                    "इस्त्री एकदम परफेक्ट! 👔",
+                    "कपडे नीटनेटके घडी करून दिले! 📦",
+                    "नाजूक कपड्यांची पण काळजी घेतात! 🎀",
+                    "कपडे अगदी नव्यासारखे दिसतायत! 💫",
+                    "स्वच्छतेचा दर्जा खूपच उच्च! 🔍",
+                    "कपड्यांना खूप छान सुगंध येतोय! 🌸",
+                    "पांढरे कपडे चमकतायत! ⚪",
+                    "रंग तसेच राहिले, फेडिंग नाही! 🌈",
+                    "प्रेसिंग अगदी उत्कृष्ट! 👕",
+                    "बारीकसारीक गोष्टींचं भान ठेवतात! 👌",
+                    "क्वालिटीमध्ये कोणतीही कमतरता नाही! 💪",
+                ],
+                timing: [
+                    "वेळेवर डिलिव्हरी, उशीर नाही! ⏰",
+                    "सांगितलेल्या वेळेपूर्वीच कपडे मिळाले! ⚡",
+                    "नेहमी वेळेवर काम होतं! 🕐",
+                    "खूप लवकर काम झालं! 🚀",
+                    "वक्तशीर सर्विस, छान! ⏱️",
+                    "सांगितलं तेव्हाच मिळालं! ✅",
+                    "सेम डे सर्विसने वाचवलं! 🙏",
+                    "डिलिव्हरी नेहमी वेळेवर! 📅",
+                    "लवकर पिकअप आणि लवकर डिलिव्हरी! 💨",
+                    "कधीच उशीर नाही! 📍",
+                ],
+                closing: [
+                    "पुन्हा पुन्हा इथेच येणार! 🔁",
+                    "सगळ्यांना रेकमेंड करेन! 👨‍👩‍👧‍👦",
+                    "धन्यवाद जगदंब लॉन्ड्री! 🙏",
+                    "पैसे वसूल! 💰",
+                    "विश्वासार्ह लॉन्ड्री! 🤝",
+                    "असंच चांगलं काम करत राहा! 💪",
+                    "आता नेहमी इथेच येणार! ❤️",
+                    "जगदंब लॉन्ड्री निवडणं योग्यच होतं! 👑",
+                    "दुसरीकडे जाण्याची गरजच नाही! 🏠",
+                    "उत्तम! पूर्ण पैसे वसूल! 🎯",
+                    "पुढच्या वेळी नक्की येणार! 😃",
+                    "10 पैकी 10! 🎉",
+                    "इथे कधी निराशा होत नाही! 💖",
+                    "खरंच सगळ्यात चांगली लॉन्ड्री! 🌟",
+                    "खूप खूप आभार! 🙌",
+                ],
+            }
+        };
+
+        // ========== STATE ==========
+        let currentReview = '';
+        let currentStars = 5;
+        let currentLangKey = 'english';
+        let usedCombos = new Set(); // Track used review combos to avoid repetition
+
+        // ========== RANDOM HELPERS ==========
+        function getRandomItem(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function getRandomStars() {
+            // 70% chance of 5 stars, 30% chance of 4 stars
+            return Math.random() < 0.7 ? 5 : 4;
+        }
+
+        function getRandomLang() {
+            const langs = ['english', 'hindi', 'marathi'];
+            return langs[Math.floor(Math.random() * langs.length)];
+        }
+
+        // ========== REVIEW GENERATOR ==========
+        function generateUniqueReview() {
+            const langKey = getRandomLang();
+            const lang = reviewData[langKey];
+            let combo, review;
+            let attempts = 0;
+
+            do {
+                const opener = getRandomItem(lang.openers);
+                const service = getRandomItem(lang.service);
+                const timing = getRandomItem(lang.timing);
+                const closing = getRandomItem(lang.closing);
+
+                combo = `${langKey}|${opener}|${service}|${timing}|${closing}`;
+                review = `${opener} ${service} ${timing} ${closing}`;
+                attempts++;
+
+                // After 50 attempts, clear the used set (pool is large enough that real duplication is rare)
+                if (attempts > 50) {
+                    usedCombos.clear();
+                }
+            } while (usedCombos.has(combo) && attempts <= 50);
+
+            usedCombos.add(combo);
+            return { review, langKey, label: lang.label, flag: lang.flag };
+        }
+
+        // ========== TYPING ANIMATION ==========
+        async function typeText(element, text) {
+            element.classList.add('typing');
+            element.innerHTML = '<span class="cursor"></span>';
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const cursor = element.querySelector('.cursor');
+
+                // Handle multi-byte emoji characters
+                const textNode = document.createTextNode(char);
+                element.insertBefore(textNode, cursor);
+
+                // Variable typing speed for natural feel
+                const delay = char === ' ' ? 15 : (char === '!' || char === '.' || char === ',' ? 60 : 20);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+
+            // Remove cursor after typing
+            setTimeout(() => {
+                const cursor = element.querySelector('.cursor');
+                if (cursor) cursor.remove();
+                element.classList.remove('typing');
+            }, 800);
+        }
+
+        // ========== STAR ANIMATION ==========
+        function animateStars(count) {
+            const stars = document.querySelectorAll('.star');
+            const starCountEl = document.getElementById('starCount');
+
+            stars.forEach(star => star.classList.remove('filled'));
+            starCountEl.textContent = '';
+
+            stars.forEach((star, index) => {
+                if (index < count) {
+                    setTimeout(() => {
+                        star.classList.add('filled');
+                        star.style.animationDelay = `${index * 0.1}s`;
+                    }, 200 + index * 150);
+                }
+            });
+
+            setTimeout(() => {
+                starCountEl.textContent = `${count}/5`;
+            }, 200 + count * 150);
+        }
+
+        // ========== GENERATE REVIEW ==========
+        async function generateReview() {
+            const reviewEl = document.getElementById('reviewText');
+            const langBadge = document.getElementById('langBadge');
+            const submitBtn = document.getElementById('submitBtn');
+            const regenBtn = document.getElementById('regenBtn');
+
+            // Disable buttons during generation
+            submitBtn.disabled = true;
+            regenBtn.disabled = true;
+
+            // Show loading
+            reviewEl.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+            langBadge.innerHTML = '🌐 Generating...';
+
+            // Simulate AI thinking delay
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            // Generate
+            const { review, langKey, label, flag } = generateUniqueReview();
+            currentReview = review;
+            currentLangKey = langKey;
+            currentStars = getRandomStars();
+
+            // Animate stars
+            animateStars(currentStars);
+
+            // Update language badge
+            langBadge.innerHTML = `${flag} ${label}`;
+
+            // Type out review
+            await typeText(reviewEl, review);
+
+            // Enable buttons
+            submitBtn.disabled = false;
+            regenBtn.disabled = false;
+        }
+
+        // ========== SUBMIT HANDLER ==========
+        async function handleSubmit() {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+
+            // Copy review to clipboard
+            try {
+                await navigator.clipboard.writeText(currentReview);
+                showToast('✅ Review copied! Paste it on Google Maps 📋');
+            } catch (err) {
+                // Fallback copy method
+                const textarea = document.createElement('textarea');
+                textarea.value = currentReview;
+                textarea.style.position = 'fixed';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('✅ Review copied! Paste it on Google Maps 📋');
+            }
+
+            // Launch confetti
+            launchConfetti();
+
+            // Redirect after a brief delay so user sees the toast
+            setTimeout(() => {
+                window.location.href = 'https://www.google.com/search?sca_esv=bd7d8bc1923d7d2f&sxsrf=APpeQnsPhPMdTV-E8BLr6l_vx5FswwrGBg:1781997209306&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_3tCBRB5tz5vzKfjztRs-iIPug949zNDP9tPsJ0gCTnYJuJ7DQqm3WBYXxYWbxiIzZuGQs78e543ak9dMR939OFuMqFp&q=Jagdamb+Laundry+Reviews&sa=X&ved=2ahUKEwjo4pr1-JaVAxV3SWwGHZI-BegQ0bkNegQIHxAF&cshid=1781997276201952&biw=1536&bih=776&dpr=1.25#lrd=0x3bc2eb80e27a8d45:0xa72a93e39e70af9a,3,,,,';
+            }, 2000);
+        }
+
+        // ========== TOAST ==========
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ========== CONFETTI ==========
+        function launchConfetti() {
+            const container = document.getElementById('confetti');
+            const colors = ['#6C63FF', '#00D4AA', '#FFD700', '#FF6B6B', '#4ECDC4', '#FFA07A', '#8B83FF'];
+
+            for (let i = 0; i < 60; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.width = (Math.random() * 8 + 5) + 'px';
+                piece.style.height = (Math.random() * 8 + 5) + 'px';
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                piece.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                piece.style.animationDelay = Math.random() * 0.5 + 's';
+                container.appendChild(piece);
+            }
+
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 4000);
+        }
+
+        // ========== PARTICLES ==========
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['rgba(108, 99, 255, 0.4)', 'rgba(0, 212, 170, 0.3)', 'rgba(255, 215, 0, 0.3)'];
+
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 3 + 1) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            // Small delay so the card entrance animation plays first
+            setTimeout(generateReview, 1000);
+        });
+    </script>
+</body>
+</html>
