@@ -1050,9 +1050,30 @@
             // Launch confetti
             launchConfetti();
 
-            // Redirect after a brief delay so user sees the toast
+            // Google Maps deep link - opens directly in Maps app on mobile
+            const googleMapsUrl = 'https://www.google.com/maps/place/Jagdamb+Laundry/@0,0,15z/data=!4m8!3m7!1s0x3bc2eb80e27a8d45:0xa72a93e39e70af9a!8m2!3d0!4d0!9m1!1b1!16s';
+            const fallbackUrl = 'https://www.google.com/maps/search/?api=1&query=Jagdamb+Laundry+%26+Drycleaners';
+
             setTimeout(() => {
-                window.location.href = 'https://www.google.com/search?sca_esv=bd7d8bc1923d7d2f&sxsrf=APpeQnsPhPMdTV-E8BLr6l_vx5FswwrGBg:1781997209306&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_3tCBRB5tz5vzKfjztRs-iIPug949zNDP9tPsJ0gCTnYJuJ7DQqm3WBYXxYWbxiIzZuGQs78e543ak9dMR939OFuMqFp&q=Jagdamb+Laundry+Reviews&sa=X&ved=2ahUKEwjo4pr1-JaVAxV3SWwGHZI-BegQ0bkNegQIHxAF&cshid=1781997276201952&biw=1536&bih=776&dpr=1.25#lrd=0x3bc2eb80e27a8d45:0xa72a93e39e70af9a,3,,,,';
+                const ua = navigator.userAgent || '';
+                const isAndroid = /android/i.test(ua);
+                const isIOS = /iphone|ipad|ipod/i.test(ua);
+
+                if (isAndroid) {
+                    // Android: intent:// opens directly in Google Maps app
+                    // Falls back to browser if Maps app not installed
+                    window.location.href = 'intent://maps.google.com/maps/place/?ftid=0x3bc2eb80e27a8d45:0xa72a93e39e70af9a#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(googleMapsUrl) + ';end';
+                } else if (isIOS) {
+                    // iOS: try Google Maps app URL scheme first
+                    window.location.href = 'comgooglemaps://?q=Jagdamb+Laundry+%26+Drycleaners&center=0,0&zoom=15';
+                    // Fallback to web if Maps app not installed (after 1.5s)
+                    setTimeout(() => {
+                        window.location.href = googleMapsUrl;
+                    }, 1500);
+                } else {
+                    // Desktop: open Google Maps in browser
+                    window.location.href = googleMapsUrl;
+                }
             }, 2000);
         }
 
