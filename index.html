@@ -1054,9 +1054,8 @@
             // Launch confetti
             launchConfetti();
 
-            // Deep link to Google Maps APP with Write Review form open automatically
-            const placeId = 'ChIJRY164oDrwjuar3Ce45Mqpw==';
-            const writeReviewUrl = 'https://search.google.com/local/writereview?placeid=' + encodeURIComponent(placeId);
+            // Google Maps deep link with lrd parameter — ,3 = Write Review form auto-opens
+            const mapsReviewUrl = 'https://www.google.com/maps?lrd=0x3bc2eb80e27a8d45:0xa72a93e39e70af9a,3,,,,';
 
             setTimeout(() => {
                 const ua = navigator.userAgent || '';
@@ -1064,17 +1063,14 @@
                 const isIOS = /iphone|ipad|ipod/i.test(ua);
 
                 if (isAndroid) {
-                    // Android: intent:// forces Google Maps APP to open (not Chrome)
-                    // writereview URL opens the review form directly
-                    window.location.href = 'intent://search.google.com/local/writereview?placeid=' + encodeURIComponent(placeId) + '#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(writeReviewUrl) + ';end';
+                    // intent:// forces Google Maps APP to open (skips Chrome)
+                    window.location.href = 'intent://www.google.com/maps?lrd=0x3bc2eb80e27a8d45:0xa72a93e39e70af9a,3,,,,#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(mapsReviewUrl) + ';end';
                 } else if (isIOS) {
                     // iOS: comgooglemapsurl:// forces Google Maps APP
-                    window.location.href = 'comgooglemapsurl://' + writeReviewUrl;
-                    // Fallback if Maps app not installed
-                    setTimeout(() => { window.location.href = writeReviewUrl; }, 1500);
+                    window.location.href = 'comgooglemapsurl://' + mapsReviewUrl;
+                    setTimeout(() => { window.location.href = mapsReviewUrl; }, 1500);
                 } else {
-                    // Desktop fallback
-                    window.location.href = writeReviewUrl;
+                    window.location.href = mapsReviewUrl;
                 }
             }, 2000);
         }
