@@ -1054,9 +1054,28 @@
             // Launch confetti
             launchConfetti();
 
-            // Redirect to Google Maps share link — opens directly in Maps app on mobile
+            // Deep link to Google Maps APP with Write Review form open automatically
+            const placeId = 'ChIJRY164oDrwjuar3Ce45Mqpw==';
+            const writeReviewUrl = 'https://search.google.com/local/writereview?placeid=' + encodeURIComponent(placeId);
+
             setTimeout(() => {
-                window.location.href = 'https://share.google/BuP7PGVQ1HxqMhiKK';
+                const ua = navigator.userAgent || '';
+                const isAndroid = /android/i.test(ua);
+                const isIOS = /iphone|ipad|ipod/i.test(ua);
+
+                if (isAndroid) {
+                    // Android: intent:// forces Google Maps APP to open (not Chrome)
+                    // writereview URL opens the review form directly
+                    window.location.href = 'intent://search.google.com/local/writereview?placeid=' + encodeURIComponent(placeId) + '#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(writeReviewUrl) + ';end';
+                } else if (isIOS) {
+                    // iOS: comgooglemapsurl:// forces Google Maps APP
+                    window.location.href = 'comgooglemapsurl://' + writeReviewUrl;
+                    // Fallback if Maps app not installed
+                    setTimeout(() => { window.location.href = writeReviewUrl; }, 1500);
+                } else {
+                    // Desktop fallback
+                    window.location.href = writeReviewUrl;
+                }
             }, 2000);
         }
 
