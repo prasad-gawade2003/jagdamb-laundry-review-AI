@@ -1054,24 +1054,11 @@
             // Launch confetti
             launchConfetti();
 
-            // Google Maps deep link with lrd parameter — ,3 = Write Review form auto-opens
-            const mapsReviewUrl = 'https://www.google.com/maps?lrd=0x3bc2eb80e27a8d45:0xa72a93e39e70af9a,3,,,,';
+            // Use the verified Google Maps / Search share URL that shows Jagdamb Laundry
+            const mapsReviewUrl = 'https://share.google/rFbNFPYaMxJkNtlSw';
 
             setTimeout(() => {
-                const ua = navigator.userAgent || '';
-                const isAndroid = /android/i.test(ua);
-                const isIOS = /iphone|ipad|ipod/i.test(ua);
-
-                if (isAndroid) {
-                    // intent:// forces Google Maps APP to open (skips Chrome)
-                    window.location.href = 'intent://www.google.com/maps?lrd=0x3bc2eb80e27a8d45:0xa72a93e39e70af9a,3,,,,#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(mapsReviewUrl) + ';end';
-                } else if (isIOS) {
-                    // iOS: comgooglemapsurl:// forces Google Maps APP
-                    window.location.href = 'comgooglemapsurl://' + mapsReviewUrl;
-                    setTimeout(() => { window.location.href = mapsReviewUrl; }, 1500);
-                } else {
-                    window.location.href = mapsReviewUrl;
-                }
+                window.location.href = mapsReviewUrl;
             }, 2000);
         }
 
