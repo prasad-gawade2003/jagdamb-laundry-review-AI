@@ -1054,8 +1054,11 @@
             // Launch confetti
             launchConfetti();
 
-            // Use deep-link schemes to force open Google Maps App directly on mobile devices
-            const mapsUrl = 'https://share.google/Hx6jW4ibOzBNDAbkD';
+            // Use ftid (Feature ID) to open the EXACT business profile in Google Maps App
+            // ftid = 0x3bc2eb80e27a8d45:0xa72a93e39e70af9a is the unique ID for Jagdamb Laundry
+            const ftid = '0x3bc2eb80e27a8d45:0xa72a93e39e70af9a';
+            const mapsPlaceUrl = 'https://www.google.com/maps/place/?ftid=' + ftid;
+            const fallbackUrl = 'https://share.google/Hx6jW4ibOzBNDAbkD';
 
             setTimeout(() => {
                 const ua = navigator.userAgent || '';
@@ -1063,19 +1066,17 @@
                 const isIOS = /iphone|ipad|ipod/i.test(ua);
 
                 if (isAndroid) {
-                    // Android: Forces the Google Maps App to open using intent:// scheme with search query
-                    const query = 'Jagdamb Laundry & Drycleaners Hanumanwadi Alandi Devachi Pune';
-                    window.location.href = 'intent://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query) + '#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(mapsUrl) + ';end';
+                    // Android: Forces Google Maps App to open the exact place profile using ftid
+                    window.location.href = 'intent://www.google.com/maps/place/?ftid=' + ftid + '#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(fallbackUrl) + ';end';
                 } else if (isIOS) {
-                    // iOS: Forces the Google Maps App to open using comgooglemaps:// scheme
-                    window.location.href = 'comgooglemaps://?q=Jagdamb+Laundry+and+Drycleaners+Hanumanwadi+Alandi+Devachi+Pune';
+                    // iOS: Open exact place in Google Maps App
+                    window.location.href = 'comgooglemaps://?center=18.6841,73.8972&q=Jagdamb+Laundry';
                     setTimeout(() => { 
-                        // Fallback to browser standard URL if app is not installed
-                        window.location.href = mapsUrl; 
+                        window.location.href = fallbackUrl; 
                     }, 1500);
                 } else {
-                    // Desktop / fallback: Open listing directly in browser
-                    window.location.href = mapsUrl;
+                    // Desktop: Open place directly
+                    window.location.href = mapsPlaceUrl;
                 }
             }, 2000);
         }
