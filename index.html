@@ -1055,7 +1055,7 @@
             launchConfetti();
 
             // Use deep-link schemes to force open Google Maps App directly on mobile devices
-            const mapsUrl = 'https://share.google/1go9hgLeVdYrSplmJ';
+            const mapsUrl = 'https://share.google/Hx6jW4ibOzBNDAbkD';
 
             setTimeout(() => {
                 const ua = navigator.userAgent || '';
@@ -1063,8 +1063,9 @@
                 const isIOS = /iphone|ipad|ipod/i.test(ua);
 
                 if (isAndroid) {
-                    // Android: Forces the Google Maps App to open using intent:// scheme
-                    window.location.href = 'intent://maps.google.com/?cid=12045610023419031450#Intent;scheme=http;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(mapsUrl) + ';end';
+                    // Android: Forces the Google Maps App to open using intent:// scheme with search query
+                    const query = 'Jagdamb Laundry & Drycleaners Hanumanwadi Alandi Devachi Pune';
+                    window.location.href = 'intent://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query) + '#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(mapsUrl) + ';end';
                 } else if (isIOS) {
                     // iOS: Forces the Google Maps App to open using comgooglemaps:// scheme
                     window.location.href = 'comgooglemaps://?q=Jagdamb+Laundry+and+Drycleaners+Hanumanwadi+Alandi+Devachi+Pune';
