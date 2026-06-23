@@ -1054,11 +1054,28 @@
             // Launch confetti
             launchConfetti();
 
-            // Use the verified Google Maps / Search share URL that shows Jagdamb Laundry
-            const mapsReviewUrl = 'https://share.google/rFbNFPYaMxJkNtlSw';
+            // Use deep-link schemes to force open Google Maps App directly on mobile devices
+            const mapsUrl = 'https://maps.google.com/?cid=12045610023419031450';
 
             setTimeout(() => {
-                window.location.href = mapsReviewUrl;
+                const ua = navigator.userAgent || '';
+                const isAndroid = /android/i.test(ua);
+                const isIOS = /iphone|ipad|ipod/i.test(ua);
+
+                if (isAndroid) {
+                    // Android: Forces the Google Maps App to open using intent:// scheme
+                    window.location.href = 'intent://maps.google.com/?cid=12045610023419031450#Intent;scheme=http;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(mapsUrl) + ';end';
+                } else if (isIOS) {
+                    // iOS: Forces the Google Maps App to open using comgooglemaps:// scheme
+                    window.location.href = 'comgooglemaps://?q=Jagdamb+Laundry+and+Drycleaners+Hanumanwadi+Alandi+Devachi+Pune';
+                    setTimeout(() => { 
+                        // Fallback to browser standard URL if app is not installed
+                        window.location.href = mapsUrl; 
+                    }, 1500);
+                } else {
+                    // Desktop / fallback: Open listing directly in browser
+                    window.location.href = mapsUrl;
+                }
             }, 2000);
         }
 
